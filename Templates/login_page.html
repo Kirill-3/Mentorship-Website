@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MENTORSHIP CREDIT SYSTEM</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="../static/css/stylesheet.css">
+
+  <link rel="stylesheet" href="stylesheet.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+
+<!-- Links to bootstrap CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- CODE ADAPTED FROM: https://getbootstrap.com/docs/4.0/components/forms/ -->
+<body>
+  <div class="grade">
+  </div>
+    <form class="form" name = "loginForm" method = "post" onSubmit = "return sendForm(), submit()">
+        <div class="login">
+          <label for="emailInput">Email</label>
+          <input type="text" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email" name="emailInput" required>
+        </div>
+        <div class="password">
+          <label for="passwordInput">Password</label>
+          <input type="password" class="form-control" id="passwordInput" placeholder="Password" name="passwordInput" required>
+        </div>
+        <button id = "submit" type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+      <script>
+        // Reference: https://www.w3schools.com/js/js_validation.asp
+        function validateForm(){
+          var x = document.forms["loginForm"]["emailInput"].value;
+          if (x == "") {
+            alert("Password and email must both be filled out");
+            return false;
+          }
+
+          var y = document.forms["loginForm"]["passwordInput"].value;
+          if (y == "") {
+            alert("Password and email must both be filled out");
+            return false;
+          }          
+}
+
+        function sendForm() {
+                    //extract data from form and save as variable
+                    var email = document.forms['loginForm']["emailInput"].value;
+                    var password = document.forms["loginForm"]["passwordInput"].value;
+                    // parameter string
+                    parameterStrings = 'email='+email+'&password='+password;
+                    //create new XML    http OBJECT
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("POST","/login-page", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.onreadystatechange = function sendForm(){
+                        if (xhttp.readyState === 4 && xhttp.status === 200){
+                            var text = xhttp.responseText;
+                            console.log(xhttp.responseText);
+                            document.getElementById('loginForm').innerHTML = xhttp.responseText;
+                        } else {
+                            console.error(xhttp.statusText)
+                        };
+                        xhttp.send(parameterStrings);
+                        return false;
+                    }
+                }
+                function submit() {
+                    document.getElementById('submit').addEventListener('click',sendForm)
+                }
+                sendForm()
+      </script>

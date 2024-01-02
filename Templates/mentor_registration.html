@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mentor_reg_styles.css') }}">
+</head>
+<body>
+    <div class="flex-container">
+        <h2 style="text-align: center;">About you</h2>
+        <form name="mentorForm" action="/mentor_registration.html" method="POST" OnSubmit="return validateForm()" enctype="multipart/form-data">
+            <input type='email' id='email' class="Email" name="email" for="email" input placeholder="Email"><br>
+            <textarea id="description" class="Description" rows="5" cols="20"  name="description" placeholder="A brief headline about who or what you represent..."></textarea><br>
+            <label class="tagsLabel">Choose 5 Areas of Expertise: </label><br>
+            <label class="info" style="font-size: 14px;">Hold down either shift or ctrl keys to select multiple</label><br>
+            <!--Reference: https://www.freecodecamp.org/news/html-select-tag-how-to-make-a-dropdown-menu-or-combo-list/-->
+            <select name="tags" id="tags" size="7" class="Select" name="tags" required multiple>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Backend Development">Backend Development</option>
+                <option value="Blockchain Technology">Blockchain Technology</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="C++">C++</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Database Management">Database Management</option>
+                <option value="Devops">Devops</option>
+                <option value="Fintech">Fintech</option>
+                <option value="Frontend Development">Frontend Development</option>
+                <option value="HTML/CSS">HTML/CSS</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Python">Python</option>
+                <option value="Robotics">Robotics</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="UX Design">UX Design</option>
+                <option value="3D Graphics">3D Graphics</option>       
+            </select> 
+            <input type="file" id="mentorImage" name="mentorImage" class="file">
+            <button type="submit" class='register' id="submit">Register</button>
+        </form>  
+    </div>
+    <button id="home" class="btn-primary" type="button">Home</button>
+    <script>
+    document.getElementById("home").addEventListener("click", function() {
+        window.location.href = "/";
+    });
+
+    function validateForm() {
+        var email = document.forms['mentorForm']['email'].value;
+        var description = document.forms['mentorForm']['description'].value;
+        var selectedOptions = document.getElementById("tags").selectedOptions;
+        var fileInput = document.getElementById("mentorImage");
+        var file = fileInput.files[0];
+
+        if (email == "" || description == "") {
+            alert("Fill in all fields");
+            console.log("Fill in all");
+            return false;
+        }
+        if (!file){
+            alert("Upload a file");
+            console.log("Image not selected");
+            return false;
+        }
+
+        var numberOfSelects = 5;
+        //only selected options are appended to the array
+        var selectedSelects = Array.from(selectedOptions).map(option => option.value);
+
+        if (selectedSelects.length !== numberOfSelects) {
+            alert("Exactly 5 options must be selected.");
+            console.log(selectedSelects)
+            console.log(selectedSelects.length)
+            return false;
+        }
+
+        // Continue with form submission
+        return true;
+    }
+
+    // Ajax request to submit registered profiles
+    // reference: ian's lesson notes
+    function sendForm() {
+        // extract data from form and save as variable
+        var email = document.forms['mentorForm']['email'].value;
+        var description = document.forms['mentorForm']['description'].value;
+        var tags = document.forms['mentorForm']['tags'].value;
+        var fileInput = document.getElementById("mentorImage");
+        var file = fileInput.files[0];
+
+        // create new FormData object
+        var formData = new FormData();
+        formData.append('email', email);
+        formData.append('description', description);
+        formData.append('tags', tags);
+        formData.append('mentorImage', file);
+
+        // create new XMLHttpRequest object
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/mentor_registration.html", true);
+
+        // do not set Content-type header when using FormData
+
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                var text = xhttp.responseText;
+                console.log(xhttp.responseText);
+                document.getElementById('mentorForm').innerHTML = xhttp.responseText;
+            } else {
+                console.error(xhttp.statusText);
+            }
+    };
+
+    // send FormData object
+    xhttp.send(formData);
+    return false;
+    }
+
+    function submit() {
+        document.getElementById('submit').addEventListener('click', sendForm);
+    }
+    </script>
+</body>
+</html>

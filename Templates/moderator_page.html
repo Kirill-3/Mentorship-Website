@@ -1,0 +1,291 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <!-- Taken from login page: -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to jQuery: -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Link to Bootstrap CSS: -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Reference: https://www.w3schools.com/css/css_border.asp -->
+    <!-- Reference: https://developer.mozilla.org/en-US/docs/Web/CSS -->
+    <!-- Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/height -->
+<style>
+    .highlight {
+            border: 2px solid green;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: flex-start;
+        height: 100vh;
+        margin: 0;
+        margin-top: 20px;
+    }
+
+        .tokenGenerator,
+        .poolGenerator {
+            position: relative;
+            z-index: 1;
+        }
+
+
+    .tokenControl,
+    .nameControl,
+    .descriptionControl {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        border-radius: 16px;
+        border: 2px solid #59cd32;
+        width: 400px;
+        box-sizing: border-box;
+        padding: 6px;
+    }
+
+    .btn-primary {
+        position: relative;
+        z-index: 1;
+        border-radius: 16px;
+        border: 2px solid #3e9023;
+        background-color: #3e9023;
+        color: white;
+        margin-top: 20px;
+        width: 400px;
+    }
+
+    /* Container for the cards, allows them to be displayed at the top left of the screen */
+    .container {
+        position: relative;
+        top: -250px; 
+        left: 250px; 
+    }
+
+    /* Navbar styling taken from Keegan's account page: */
+    .sidenav {
+  height: 100%;
+  width: 170px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: white;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+</style>
+</head>
+
+
+<body>
+    <!-- Navbar taken from Keegan's account page: -->
+    <div class="sidenav">
+        <a href="/">Home</a>
+        <a href="/login_page.html">Log Out</a>
+      </div>
+    <!-- Link to Bootstrap JS: -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Form code below for tokens and pools copied from my login page and modified -->
+    <form id = "tokenGenerator">
+        <div class="tokenGenerator">
+          <label for="numToken"></label>
+          <input type="number" class="tokenControl" id="numberInput" placeholder="Enter a number: " name="numberInput">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="generateTokens()">Generate Tokens</button>
+    </form>
+
+    <form id = "poolGenerator" method = "post" action = "\moderator_page.html"  onSubmit = "return validateForm(), sendForm()">
+        <div class="poolGenerator">
+          <label for="poolName"></label><br>
+          <input type="text" class="nameControl" id="nameInput" placeholder="Name of pool: " name="nameInput">
+          <label for="poolDescription"></label><br>
+          <input type="text" class="descriptionControl" id="descriptionInput" placeholder="Description of pool: " name="descriptionInput">
+        </div>
+        <button type="submit" id = "submit" class="btn btn-primary">Generate Pool</button>
+    </form>
+
+    <!-- Creating a container for the cards -->
+    <div class="container">
+        <div id="mentorListings" class="row"></div>
+    </div>
+
+    <!-- Buttons taken from our Hackathon 2 code -->
+    <button id="approve" type="button" onclick="return approveMentor()" style="position:absolute;left:590px;top:50px;background-color: rgb(18, 178, 18); color: ivory;height: 40px; width: 100px;" >Approve</button>
+    <button id="reject" type="button" onclick="return rejectMentor()" style="position:absolute;left:690px;top:50px;background-color: red;color: ghostwhite;height: 40px; width: 100px;">Reject</button>
+
+</body>
+
+
+<script>
+    // Code below from my validation function in the login page:
+    function validateForm(){
+    var x = document.forms["poolGenerator"]["descriptionInput"].value;
+    if (x == "") {
+    alert("Both fields must be filled out");
+    return false;
+    }
+
+    var y = document.forms["poolGenerator"]["nameInput"].value;
+    if (y == "") {
+    alert("Both fields must be filled out");
+    return false;
+    }          
+}
+
+// Code below taken from Aliza's work on displaying cards onto the main page and modified:
+  function displayMentors(data){
+    const mentorsData = data;
+    const mentorListingsContainer = document.getElementById("mentorListings");
+    mentorListingsContainer.innerHTML = "";
+
+    mentorsData.forEach(mentor => {
+      console.log("mentor data: ", mentor);
+      const mentorCard = document.createElement("div")
+      mentorCard.textContent ='${mentor.name}';
+      mentorListingsContainer.appendChild(mentorCard)
+    });
+  }
+</script>
+
+ 
+{% for mentor in data%}
+    <div class="container" id="container{{ loop.index }}">
+        <div class="column" style="float:left; width:25%; padding:10px">
+            <!-- Reference for "data-user-id": https://www.w3schools.com/TAGS/att_data-.asp -->
+            <!-- Pulling userID from the database and storing it in this data attribute -->
+            <div class="card" id = "cardID{{ loop.index }}" data-user-id="{{ mentor[0] }}" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 10px; 
+            text-align: center; background-color: #f1f1f1; border-radius: 18px; background-color: ghostwhite;">
+                <h3>{{mentor[2]}}</h3>
+                <button onclick="selectCard('cardID{{ loop.index }}')">Select</button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+// Initialising a variable
+let selectedCardId = null
+
+function selectCard(cardID) {
+    // Reference: https://medium.com/coding-beauty/javascript-remove-class-from-multiple-elements-99e694e94ca6
+    // Select every card and remove the highlight class
+    document.querySelectorAll('.card').forEach(function (card) {
+                card.classList.remove('highlight');
+            });
+            // Add the highlight class to the card container for highlighting
+            const cardContainer = document.getElementById(cardID)
+            cardContainer.classList.add('highlight');
+            selectedCardId = cardID;
+}
+
+function approveMentor() {
+            // Check if a card is selected
+            if (selectedCardId) {
+            const cardContainer = document.getElementById(selectedCardId)
+            // Obtain the data stored in the data attribute from earlier, and store it in a variable
+            const userId = cardContainer.dataset.userId;
+            // Reference: https://api.jquery.com/jQuery.post/
+            // Make a post request to a specific url
+            // Within the request, send some data (the userID from the table), and execute a function if the request is successful
+            $.ajax({
+                type: "POST",
+                url: "/approve_mentor",
+                data: { userId: userId },
+                success: function(response) {
+                // Remove selected card
+                    cardContainer.remove();
+                },
+            })
+            } else {
+                alert('No card selected for approval.');
+            }
+        // Reference: https://stackoverflow.com/questions/8664486/javascript-code-to-stop-form-submission
+        // Always return false to prevent form submission
+        return false;
+}
+
+function rejectMentor() {
+    // Check if a card is selected
+    if (selectedCardId) {
+        // Remove selected card
+        const cardContainer = document.getElementById(selectedCardId)
+        const userId = cardContainer.dataset.userId;
+        $.ajax({
+                type: "POST",
+                url: "/reject_mentor",
+                data: { userId: userId },
+                success: function(response) {
+                // Remove selected card
+                    cardContainer.remove();
+                },
+            })
+    } else {
+        alert('No card selected for rejection.');
+    }
+}
+
+function generateTokens() {
+    // Get the input from above form
+    var number = document.getElementById('numberInput').value;
+    // First validate the input
+    if (Number.isInteger(+number) && +number > 0) {
+        // Generate tokens
+        alert(number + " token(s) generated")
+    }
+    else {
+        alert('Please enter a valid number');
+    }
+}
+
+// Reference: Ian's video
+function sendForm() {
+    //extract data from form and save as variable
+    var pName = document.forms['poolGenerator']["nameInput"].value;
+    var pDescription = document.forms["poolGenerator"]["descriptionInput"].value;
+    // parameter string
+    parameterStrings = 'pName='+pName+'&pDescription='+pDescription;
+    //create new XML http OBJECT
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST","/moderator_page", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function sendForm(){
+        if (xhttp.readyState === 4 && xhttp.status === 200){
+            var text = xhttp.responseText;
+            console.log(xhttp.responseText);
+            document.getElementById('poolGenerator').innerHTML = xhttp.responseText;
+        }   else {
+            console.error(xhttp.statusText)
+        };
+        xhttp.send(parameterStrings);
+        return false;
+        }
+    }
+
+function submit() {
+   document.getElementById('submit').addEventListener('click',sendForm)
+}
+sendForm()
+</script>
+</html>

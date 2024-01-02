@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div class="flex-container">
+      <h2 style="text-align: center;">About you</h2>
+      <form name="registerForm" action="/Register-page.html" method="POST" OnSubmit="return validateForm()">
+        <label for='fname'></label><br>
+        <input type="text" id='fname' name='fname' input placeholder="*Firstname" class="FName"><br>
+        <label for='lname'></label><br>
+        <input type="text" id='lname' name='lname'class="LName" input placeholder="*Lastname"><br>
+        <label for='email'></label><br>
+        <input type='email' id='email' name='email'class="Email" input placeholder="*Email"><br>
+        <label for='pass'></label><br>
+
+        <!--Reference: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern-->
+        <input type='password' id='pass' name='pass'class="Passw"  input placeholder="*Password"><br>
+        <label for="phoneNumber"></label><br>
+        <input type="tel" id="phoneNumber" name="phoneNumber" input placeholder="*Phone Number" class="phoneNumber"><br>
+        <label for="linkedIn"></label><br>
+        <input type="url" id="LinkedIn" class="LINKEDIN" name="LinkedIn" input placeholder="*LinkedIn"><br>
+        <button type="submit" class='register' id="submit">Register</button>
+      </form>  
+    </div>
+
+    <button class="Login" id="login">Log In</button> 
+    <button class="Home" id="home">Home</button>
+    <style>
+    .flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 90vh;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-family: sans-serif;
+    }
+    .FName, 
+    .LName,
+    .Email,
+    .Passw,
+    .phoneNumber,
+    .LINKEDIN {
+      border-radius: 16px;
+      border-style: solid;
+      border-color: #59cd32;
+      width:400px;
+      box-sizing: border-box;
+      padding: 6px;
+    }
+
+  .register {
+      margin-top: 20px;
+      border-radius: 16px;
+      border-style: solid;
+      border-color: #3e9023;
+      background-color: #3e9023;
+      color: white;
+      align-items: center;  
+  }
+  
+  .Login {
+    border-radius: 16px;
+    border-style: solid;
+    background-color: black;
+    color: white;
+    align-items: center;
+    width: 100px;
+    height: 30px;     
+    position: absolute;
+    top: 50px;
+    left: 10px;
+  }
+  .Home {
+    border-radius: 16px;
+    border-style: solid;
+    background-color: black;
+    color: white;
+    align-items: center;
+    width: 100px;
+    height: 30px;     
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+      
+    </style>
+    <script>
+    document.getElementById("login").addEventListener("click", function() {
+    window.location.href = "/login_page.html";
+    });
+
+    document.getElementById("home").addEventListener("click", function() {
+    window.location.href = "/";
+    });
+
+    function validateForm(){
+      var fname = document.forms['registerForm']['fname'].value;
+      var lname = document.forms['registerForm']['lname'].value;
+      var email = document.forms['registerForm']['email'].value;
+      var pass = document.forms['registerForm']['pass'].value;
+      var phoneNumber = document.forms['registerForm']['phoneNumber'].value;
+      var linkedin = document.forms['registerForm']['LinkedIn'].value;
+      
+      var passwordRequirements = /^(?=(?:\D*\d){2})(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+
+      if (fname == "" || lname == "" || email == "" || pass == "" || phoneNumber == "" || linkedin == "") {
+          alert("Fill in all fields");
+          console.log("Fill in all")
+          return false;
+
+      if (passwordRequirements.test(password)) {
+        alert("Yes");
+      } else {
+        alert("Needs at least two digits, at least one special character, and is between 8 and 16 characters in length.");
+      }
+
+      }else{
+        sendForm()
+        submit()
+      }
+  
+        
+    }
+
+
+    //Ajax request to submit registered profiles
+    //reference: ian's lesson notes
+    function sendForm() {
+      //extract data from form and save as variable
+      var firstName = document.forms['registerForm']['fname'].value;
+      var lastName = document.forms['registerForm']['fname'].value;
+      var email = document.forms['registerForm']['email'].value;
+      var pass = document.forms['registerForm']['pass'].value;
+      var phoneNumber = document.forms['registerForm']['phoneNumber'].value;
+      var linkedin = document.forms['registerForm']['LinkedIn'].value;
+      
+      // parameter string
+      var parameterString = 'fname=' + firstName + '&lname=' + lastName + '&email=' + email + '&pass=' + pass + '&phoneNumber=' + phoneNumber + '&linkedin=' + linkedin;
+      
+      //create new XML    http OBJECT
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST","Register-page", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.onreadystatechange = function sendForm(){
+          if (xhttp.readyState === 4 && xhttp.status === 200){
+              var text = xhttp.responseText;
+              console.log(xhttp.responseText);
+              document.getElementById('registerForm').innerHTML = xhttp.responseText;
+          } else {
+              console.error(xhttp.statusText)
+          };
+          xhttp.send(parameterString);
+          return false;
+      }
+  }
+  function submit() {
+      document.getElementById('submit').addEventListener('click',sendForm)
+  }
+    
+
+    </script>
+  </body>
+</html>
+

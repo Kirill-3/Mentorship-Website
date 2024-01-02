@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <body>
+      <!-- links on the navbar to take the user places -->
+        <div class="sidenav">
+            <a href="main_page.html">Home</a>
+            <a href="#">Communities</a>
+            <a href="#">Settings</a>
+            <a href="#">Contact</a>
+            <a href="#">FAQ</a>
+          </div>
+          
+          <span style="font-size:50px;cursor:pointer" onclick="openNav()">&#9776;</span>
+        <div class="flex-container">
+            <!--pfp-->
+            <form>
+                <label>
+                    <input id="file" type="file" onchange="loadFile(event)"> 
+                    <div class="profilepic" alt="UserProfilePicture" style="background-image:url(https://www.kreiszeitung.de/bilder/2017/10/07/8751735/1025522487-cristiano-ronaldo-weltfussballer.jpg);" id="output">
+                    <span>Change Image</span>
+                    </div>
+                </label>       
+            </form>
+            <!--User Details-->
+            <p class="username" id="editusern" style="position:absolute;top:165px;color:black;font-weight: 600;font-family:Arial, Helvetica, sans-serif;font-size: 22px;">Cristiano Ronaldo</p>
+            <button onclick="toggleEditUsername()" style="position: absolute;top: 190px;right: 40px;" class="UserNButton">Edit Username</button>
+            <p class="email" id="editemail" style="position: absolute;top:200px;color: black;">Cr7@sfansfsda.com</p>
+            <button onclick="toggleEditEmail()" style="position: absolute;top: 217px;right:40px;" class="EmailButton">Edit Email</button>
+            <p class="link" id="editlink" style="position: absolute;top: 225px;color: black;">https://uk.linkedin.com/in/liam-anderson-phd-689a3357</p>
+            <button onclick="toggleEditLink()" style="position: absolute;top:245px;right:40px;" class="LinkButton">Edit Link</button>
+            <div class="Description" id="editdescription">
+                <div>About me: to earn his second world player of the year award (the FIFA World Player of the Year was renamed the FIFA Ballon d’Or in 2010). In 2014 he scored 52 goals in 43 games and led Madrid to a Champions League title, which resulted in Ronaldo capturing another Ballon d’Or award. In 2014–15 he netted 48 goals to lead La Liga in scoring. Ronaldo netted his 324th goal as a member of Real in October 2015 to become the club’s all-time leading goal scorer. He scored 35 La Liga goals in 2015–16 and helped Real win its record 11th Champions League title, and in December 2016 he won a fourth career Ballon d’Or for his accomplishments. Ronaldo scored 42 goals for Real across all competitions in 2016–17 and led his team to La Liga and Champions League titles that season, which resulted in a fifth career Ballon d’Or award. In 2017–18 he scored 44 goals in 44 games, and Real won a third straight Champions League title.</div>
+            </div>
+            <button onclick="toggleEditBiobox()" style="position: absolute;top:275px ;right:40px;" class="BioButton">Edit Bio</button>
+        </div>
+    </body>
+    
+    <style>
+        /* nav bar left from w3schools */
+        body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 170px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: white;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* Rest of the body of text make everything look cleaner and nicer */
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            height: 100px;
+            align-items: center;
+            align-items: flex-end;
+        }
+        .profilepic {
+            border-radius: 10%;
+            height: 150px;
+            width: 150px;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            vertical-align: middle;
+            text-align: center;
+            color: transparent;
+            transition: all .3s ease;
+            text-decoration: none;
+            cursor: pointer;       
+       }
+       .profilepic:hover {
+        background-color: rgb(60, 57, 57);
+        z-index: 10000;
+        color:white;
+        transition: all .3s ease;
+        text-decoration: none;
+       }
+       .profilepic span {
+        display: inline-block;
+        padding-top: 4.5em;
+        padding-bottom: 4.5em;
+       }
+       form input[type="file"] {
+        display: none;
+        cursor: pointer;
+       }
+       .Description {
+        line-height: 22px;
+        font-size: 14px;
+        background-color: transparent;
+        color: black;
+        width: 500px;
+        position: absolute;
+        top: 270px;
+        text-align: center;
+       }
+       .BioButton {
+        background-color: black;
+        color: white;
+        border-radius: 16px;
+        font-size: 10px;
+       }
+       .link {
+        position: absolute;
+        text-align: center;
+       }
+       .LinkButton {
+        background-color: black;
+        color: white;
+        border-radius: 16px;
+        font-size: 10px;
+       }
+       .email {
+        position: absolute;
+        text-align: center;
+       }
+       .EmailButton {
+        background-color: black;
+        color: white;
+        border-radius: 16px;
+        font-size: 10px;
+       }
+       .UserNButton {
+        background-color: black;
+        color: white;
+        border-radius: 16px;
+        font-size: 10px;
+       }
+       /* white background pic to make it look more aestheic instead of a boring plain white */
+       body {
+        background-image:url('https://th.bing.com/th/id/R.3beac3abce8f231f5a2603b29b2ecc5e?rik=JQHz5yWhHeq27w&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f09%2fAll-White-HD-Background.png&ehk=TKbhAk9OTvETmynepNT77P8L5t%2bgd3Y%2fWwEmavOMdAI%3d&risl=&pid=ImgRaw&r=0')
+       }   
+    </style>
+    <script>
+        // edit profile pic with update
+         var loadFile = function (event) {
+            var image = document.getElementById("output");
+            image.style.backgroundImage = "url(" + URL.createObjectURL(event.target.files[0]) + ")";
+         };
+         // edit username
+         function toggleEditUsername() {
+            var usernameElement = document.getElementById("editusern");
+            var button = document.querySelector(".UserNButton");
+            usernameElement.contentEditable = !usernameElement.isContentEditable;
+            if (usernameElement.isContentEditable) {
+                button.textContent = "Save";
+            } else {
+                button.textContent = "Edit Username";
+            }            
+         }
+         // edit email 
+         function toggleEditEmail() {
+            var emailElement = document.getElementById("editemail");
+            var button = document.querySelector("EmailButton");
+            emailElement.contentEditable = !emailElement.isContentEditable;
+            if (emailElement.isContentEditable) {
+                button.textContent = "Save";
+            } else {
+                button.textContent = "Edit Email";
+            }            
+         }
+         // edit link
+         function toggleEditLink() {
+            var linkElement = document.getElementById("editlink");
+            var button = document.querySelector("LinkButton");
+            linkElement.contentEditable = !linkElement.isContentEditable;
+            if (linkElement.isContentEditable) {
+                button.textContent = "Save";
+            } else {
+                button.textContent = "Edit Link";     
+            }
+         }
+         // edit bio
+         function toggleEditBiobox() {
+            var DescriptionElement = document.getElementById("editbio");
+            var button = document.querySelector("BioButton");
+            DescriptionElement.contentEditable = !DescriptionElement.isContentEditable;
+            if (bioboxElement.isContentEditable) {
+                button.textContent = "Save";
+            } else {
+                button.textContent = "Edit Bio";
+            }
+         }
+        </script>
+</html>
+
+

@@ -1,0 +1,104 @@
+/* stylesheet.css */
+
+
+body {
+    background-color: #f8f9fa;
+    color: #343a40; 
+}
+
+
+.navbar {
+    background: linear-gradient(45deg,#1276D6,rgb(97, 91, 255),rgb(109, 228, 255));; 
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important; 
+}
+
+
+.container {
+    margin-top: 20px;
+}
+
+
+h1 {
+    color: #007bff; 
+}
+
+#mentorListings {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+
+/* Card styles */
+.card {
+    border: 1px solid #dee2e6; 
+    border-radius: 5px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out; /* Adding a smooth transition for the moving effect */
+}
+
+.card:hover {
+    transform: scale(1.05); 
+}
+
+/* Search form styles */
+.form-control {
+    margin-bottom: 10px;
+}
+
+/* Button styles */
+.btn-success {
+    background-color: #28a745; 
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker shade on hover */
+    border: 1px solid #218838;
+}
+
+/* Footer styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+}
+.grade {
+    height: 100vh;
+    width: 100%;
+    
+    background: linear-gradient(45deg,#1276D6,white,rgb(97, 91, 255),rgb(109, 228, 255),white);
+    background-size: 300% 300%;
+    animation: color 15s ease-in-out infinite;
+  }
+  @keyframes color{
+      0%{
+           background-position: 0 50%;
+      }
+      50%{
+          background-position: 100% 50%;
+      }
+      100%{
+          background-position: 0% 50%;
+      }
+  }
+  .form{
+    
+    position: absolute;
+    width: 500px;
+    
+    top: 50%; /* 50% down from the top */
+    left: 50%; /*  50% from the left */
+    transform: translate(-50%, -50%); /* Centers the container */
+    padding: 20px; /* Adjust padding as needed */
+    background-color: white; /* Adjust background color*/
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
